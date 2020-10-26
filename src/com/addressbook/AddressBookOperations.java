@@ -118,4 +118,14 @@ class AddressBookOperations {
 		}
 		System.out.println(personInfo);
 	}
+	public void printAll() {
+		System.out.println("\nAll contacts in mailing label format :");
+		for (int i=0; i<personInfo.size(); i++) {
+			Person p = (Person)personInfo.get(i);
+			System.out.println(p.getFirstName()+" "+p.getLastName());
+			System.out.println(p.getAddress());
+			System.out.println(p.getCity()+" "+p.getState()+"-"+p.getZip());
+			System.out.println(p.getPhone()+"\n");
+		}
+	}
 }

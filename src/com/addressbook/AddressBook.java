@@ -14,7 +14,8 @@ public class AddressBook {
 		sc = new Scanner(System.in);
 
 		do {
-			System.out.print(" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Exit \n Enter your choice : ");
+			System.out.print(
+					" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Print all contacts \n 5.Exit \n Enter your choice : ");
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -34,6 +35,9 @@ public class AddressBook {
 				System.out.println("Person named " + str + " " + str1 + " deleted from address book.");
 				break;
 			case 4:
+				addressbookoperations.printAll();
+				break;
+			case 5:
 				System.out.println("You exited the program.");
 				addressbookoperations.setFile();
 				System.exit(0);
@@ -41,7 +45,7 @@ public class AddressBook {
 			default:
 				System.out.println("Wrong choice.");
 			}
-		} while (choice != 4);
+		} while (choice != 5);
 	}
 
 }
