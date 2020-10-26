@@ -110,4 +110,12 @@ class AddressBookOperations {
 		personInfo.add(p);
 		System.out.println("Person updated :\n"+p);
 	}
+	public void removePerson (String n, String n1) {
+		for (int i=0; i<personInfo.size(); i++) {
+			Person p = (Person)personInfo.get(i);
+			if ( n.equalsIgnoreCase(p.getFirstName()) && n1.equalsIgnoreCase(p.getLastName()) )
+				personInfo.remove(i);
+		}
+		System.out.println(personInfo);
+	}
 }
