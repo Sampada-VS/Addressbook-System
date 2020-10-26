@@ -5,8 +5,8 @@ import java.util.*;
 
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
-	private Scanner sc;
-
+	Scanner sc;
+	
 	public AddressBookOperations() {
 		personInfo = new ArrayList<Person>();
 		getFile();
@@ -66,7 +66,7 @@ class AddressBookOperations {
 	}
 
 	public void addPerson() {
-		sc = new Scanner(System.in);
+		sc=new Scanner(System.in);
 		System.out.print("\nEnter first name : ");
 		String name=sc.nextLine();
 		System.out.print("Enter last name : ");
@@ -82,10 +82,32 @@ class AddressBookOperations {
 		System.out.print("Enter mobile number : ");
 		String phoneNo=sc.nextLine();
 		System.out.println();
-
 		Person p = new Person(name,surname,addr,cityName,stateName,zipCode,phoneNo);
 
 		personInfo.add(p);
 		System.out.println("Person added :\n"+p);
+	}
+	public void updatePerson (String n, String n1) {
+		for (int i=0; i<personInfo.size(); i++) {
+			Person p = (Person)personInfo.get(i);
+			if ( n.equalsIgnoreCase(p.getFirstName()) && n1.equalsIgnoreCase(p.getLastName()) )
+				personInfo.remove(i);
+		}
+		sc=new Scanner(System.in);
+		System.out.print("Enter address : ");
+		String addr=sc.nextLine();
+		System.out.print("Enter city : ");
+		String cityName=sc.nextLine();
+		System.out.print("Enter state : ");
+		String stateName=sc.nextLine();
+		System.out.print("Enter zip code : ");
+		String zipCode=sc.nextLine();
+		System.out.print("Enter mobile number : ");
+		String phoneNo=sc.nextLine();
+		System.out.println();
+		
+		Person p=new Person(n,n1,addr,cityName,stateName,zipCode,phoneNo);
+		personInfo.add(p);
+		System.out.println("Person updated :\n"+p);
 	}
 }
