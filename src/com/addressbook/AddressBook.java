@@ -10,7 +10,7 @@ public class AddressBook {
 		int option;
 		String fileOperated=null;
 		do {
-			System.out.println("== Address Book == \n 1.Create new addressbook 2.Open existing addressbook 3.Exit :\n");
+			System.out.println("== Address Book == \n 1.Create new addressbook 2.Open existing addressbook 3.Exit  :");
 			option= sc.nextInt();
 			switch (option) {
 				case 1:
@@ -41,14 +41,17 @@ public class AddressBook {
 
 		do {
 			System.out.print(
-					" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Print all contacts \n 5.Exit \n Enter your choice : ");
+					" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Print all contacts \n 5.Close the address book. \n Enter your choice : ");
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
-				addressbookoperations.addPerson();
+				System.out.println("Enter first and last name to add details : ");
+				str = sc.next();
+				str1 = sc.next();
+				addressbookoperations.addPerson(str,str1);
 				break;
 			case 2:
-				System.out.println("Enter first and last name to update info : ");
+				System.out.println("Enter first and last name to update details : ");
 				str = sc.next();
 				str1 = sc.next();
 				addressbookoperations.updatePerson(str, str1);
