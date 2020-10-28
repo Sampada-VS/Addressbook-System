@@ -4,14 +4,40 @@ import java.util.Scanner;
 
 public class AddressBook {
 
-	static Scanner sc;
-
+	static Scanner sc=new Scanner(System.in);
+	
 	public static void main(String[] args) {
-		AddressBookOperations addressbookoperations = new AddressBookOperations();
-
+		int option;
+		String fileOperated=null;
+		do {
+			System.out.println("== Address Book == \n 1.Create new addressbook 2.Open existing addressbook 3.Exit :\n");
+			option= sc.nextInt();
+			switch (option) {
+				case 1:
+					fileOperated=AddressBookOperations.createAddressBook();
+					performOperations(fileOperated);
+					break;
+				case 2:
+					fileOperated=AddressBookOperations.displayAddressBook();
+					if (fileOperated == null)
+						System.out.println("No such address book present.");
+					else
+						performOperations(fileOperated);
+					break;
+				case 3:
+					System.out.println("You exit the program.");
+					System.exit(0);
+				default:
+					System.out.println("Wrong choice");
+			}
+		}while(option != 3);
+		
+	}
+	
+	public static void performOperations(String workOnAddressBook) {
+		AddressBookOperations addressbookoperations = new AddressBookOperations(workOnAddressBook);
 		String str, str1;
 		int choice;
-		sc = new Scanner(System.in);
 
 		do {
 			System.out.print(
@@ -38,9 +64,8 @@ public class AddressBook {
 				addressbookoperations.printAll();
 				break;
 			case 5:
-				System.out.println("You exited the program.");
-				addressbookoperations.setFile();
-				System.exit(0);
+				System.out.println("You closed the '"+workOnAddressBook.replaceFirst("[.][^.]+$", "")+" ' address book.");
+				addressbookoperations.setFile(workOnAddressBook);
 				break;
 			default:
 				System.out.println("Wrong choice.");

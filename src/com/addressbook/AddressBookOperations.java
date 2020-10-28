@@ -5,19 +5,69 @@ import java.util.*;
 
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
-	Scanner sc;
+	static Scanner sc=new Scanner(System.in);
 	
-	public AddressBookOperations() {
+	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
-		getFile();
+		getFile(addressBookName);
 	}
-
-	public void getFile() {
+	
+	public static String createAddressBook(){
+		System.out.println("Enter name of address book :");
+		String fileName=sc.next();
+		String addressBookCreated = null;
+		try {
+		      File myObj = new File(fileName+".txt");
+		      addressBookCreated=myObj.getName();
+		      if (myObj.createNewFile()) {
+		        System.out.println("Address book created: ' " + addressBookCreated.replaceFirst("[.][^.]+$", "")+" '");
+		      } else {
+		        System.out.println("Address book already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }		
+		 return addressBookCreated;
+	}
+	
+	public static String displayAddressBook() {
+		File directoryPath = new File(".");
+		String addressBookEntered;
+		String addressBookExisted = null;
+		int flag=0;
+		File[] files=directoryPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".txt");
+			}
+		});
+		
+		for (File filename : files) {
+			System.out.println(filename.getName().replaceFirst("[.][^.]+$", ""));
+		}
+        System.out.println("Enter address book :");
+        addressBookEntered=sc.next();
+        for (File filename : files) {
+        	if ( addressBookEntered.equals(filename.getName().replaceFirst("[.][^.]+$", "")) ) {
+        		addressBookExisted=filename.getName();
+        		flag=1;
+        	}
+        }
+        if (flag == 1) {
+        	System.out.println("You opened ' "+addressBookEntered+" ' address book.");
+        	return addressBookExisted;
+        }else 
+        	return null;
+        
+	}
+	
+	public void getFile(String addressBookName) {
 		String tokens[] = null;
 		String fname,lname,addr,city,state,zip,ph;
 
 		try {
-			FileReader filereader = new FileReader ("contacts.txt");
+			FileReader filereader = new FileReader (addressBookName);
 			BufferedReader bufferedreader = new BufferedReader(filereader);
 
 			String line = bufferedreader.readLine();
@@ -43,12 +93,12 @@ class AddressBookOperations {
 		}
 	}
 
-	public void setFile() {
+	public void setFile(String addressBookName) {
 		try {
 			Person p;
 			String line;
 
-			FileWriter filewriter = new FileWriter("contacts.txt");
+			FileWriter filewriter = new FileWriter(addressBookName);
 			PrintWriter printwriter = new PrintWriter(filewriter);
 
 			for (int i=0; i<personInfo.size(); i++) {
