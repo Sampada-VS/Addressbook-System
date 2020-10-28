@@ -18,6 +18,7 @@ class AddressBookOperations {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 	}
+
 	public void searchCity(String addressBookName,String city) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
