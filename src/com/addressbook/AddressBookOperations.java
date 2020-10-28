@@ -6,7 +6,10 @@ import java.util.*;
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
 	static Scanner sc;
+	Dictionary<String, String> statePerson = new Hashtable<String, String>();
+	Dictionary<String, String> cityPerson = new Hashtable<String, String>();
 
+	
 	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
@@ -207,17 +210,22 @@ class AddressBookOperations {
 		for (int i = 0; i < personInfo.size(); i++) {
 				Person p = (Person) personInfo.get(i);
 				if (city.equalsIgnoreCase(p.getCity()) ) 
-					System.out.println(p.getFirstName());
-				
+					cityPerson.put(p.getFirstName(), city);										
 		}
-			
+		Enumeration<String> personsKeys= cityPerson.keys();
+		while(personsKeys.hasMoreElements()) {
+			System.out.println(personsKeys.nextElement());
+		}	
 	}
 	public void searchUsingState(String state) {
 		for (int i = 0; i < personInfo.size(); i++) {
 			Person p = (Person) personInfo.get(i);
 			if (state.equalsIgnoreCase(p.getState()) ) 
-				System.out.println(p.getFirstName());
-			
+				statePerson.put(p.getFirstName(), state);						
+		}
+		Enumeration<String> personKeys= statePerson.keys();
+		while(personKeys.hasMoreElements()) {
+			System.out.println(personKeys.nextElement());
 		}
 	}
 }
