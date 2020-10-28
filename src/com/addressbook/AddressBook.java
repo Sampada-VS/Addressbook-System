@@ -1,5 +1,7 @@
 package com.addressbook;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Scanner;
 
 public class AddressBook {
@@ -7,10 +9,21 @@ public class AddressBook {
 	static Scanner sc=new Scanner(System.in);
 	
 	public static void main(String[] args) {
+
 		int option;
+		String input;
 		String fileOperated=null;
+		
+		File directoryPath = new File(".");
+		File[] files = directoryPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".txt");
+			}
+		});
+
 		do {
-			System.out.println("== Address Book == \n 1.Create new addressbook 2.Open existing addressbook 3.Exit  :");
+			System.out.println("== Address Book == \n 1.Create new addressbook 2.Open existing addressbook \n 3.Search using city 4.Search using state \n 5.Exit \n Enter option :");
 			option= sc.nextInt();
 			switch (option) {
 				case 1:
@@ -25,12 +38,31 @@ public class AddressBook {
 						performOperations(fileOperated);
 					break;
 				case 3:
+					System.out.println("Enter city name to list persons : ");
+					input = sc.next();
+
+					System.out.println("Person lives in city "+input+" are :");
+
+					for (File filename : files) {
+						searchFromCity(filename.getName(),input);
+					}
+					break;
+				case 4:
+					System.out.println("Enter state name to list persons : ");
+					input = sc.next();
+					System.out.println("Person lives in state "+input+" are :");
+
+					for (File filename : files) {
+						searchFromState(filename.getName(),input);
+					}
+					break;
+				case 5:
 					System.out.println("You exit the program.");
 					System.exit(0);
 				default:
 					System.out.println("Wrong choice");
 			}
-		}while(option != 3);
+		}while(option != 5);
 		
 	}
 	
@@ -65,7 +97,7 @@ public class AddressBook {
 				break;
 			case 4:
 				addressbookoperations.printAll();
-				break;
+				break;			
 			case 5:
 				System.out.println("You closed the '"+workOnAddressBook.replaceFirst("[.][^.]+$", "")+" ' address book.");
 				addressbookoperations.setFile(workOnAddressBook);
@@ -75,5 +107,14 @@ public class AddressBook {
 			}
 		} while (choice != 5);
 	}
+	public static void searchFromCity(String filename,String city) {
+		AddressBookOperations addressbookoperation = new AddressBookOperations(filename,city);
+		addressbookoperation.searchCity(filename,city);
+	}
+	public static void searchFromState(String filename,String state) {
+		AddressBookOperations addressbookoperation = new AddressBookOperations(filename,state);
+		addressbookoperation.searchState(filename,state);
+	}
+
 
 }

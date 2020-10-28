@@ -5,14 +5,29 @@ import java.util.*;
 
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
-	static Scanner sc = new Scanner(System.in);
+	static Scanner sc;
 
 	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 	}
+	public AddressBookOperations(String addressBookName,String city) {
+		personInfo = new ArrayList<Person>();
+		getFile(addressBookName);
+	}
+	public void searchCity(String addressBookName,String city) {
+		personInfo = new ArrayList<Person>();
+		getFile(addressBookName);
+		searchUsingCity(city);
+	}
+	public void searchState(String addressBookName,String state) {
+		personInfo = new ArrayList<Person>();
+		getFile(addressBookName);
+		searchUsingState(state);
+	}
 
 	public static String createAddressBook() {
+		sc = new Scanner(System.in);
 		System.out.println("Enter name of address book :");
 		String fileName = sc.next();
 		String addressBookCreated = null;
@@ -33,6 +48,7 @@ class AddressBookOperations {
 	}
 
 	public static String displayAddressBook() {
+		sc= new Scanner(System.in);
 		File directoryPath = new File(".");
 		String addressBookEntered;
 		String addressBookExisted = null;
@@ -125,6 +141,7 @@ class AddressBookOperations {
 		if (flag == 1)
 			System.out.println("Can't add person entry because it already exists.");
 		else {
+			sc = new Scanner(System.in);
 			System.out.print("Enter address : ");
 			String addr = sc.nextLine();
 			System.out.print("Enter city : ");
@@ -148,6 +165,7 @@ class AddressBookOperations {
 			if (n.equalsIgnoreCase(p.getFirstName()) && n1.equalsIgnoreCase(p.getLastName()))
 				personInfo.remove(i);
 		}
+		sc = new Scanner(System.in);
 		System.out.print("Enter address : ");
 		String addr = sc.nextLine();
 		System.out.print("Enter city : ");
@@ -182,6 +200,24 @@ class AddressBookOperations {
 			System.out.println(p.getAddress());
 			System.out.println(p.getCity() + " " + p.getState() + "-" + p.getZip());
 			System.out.println(p.getPhone() + "\n");
+		}
+	}
+
+	public void searchUsingCity(String city) {
+		for (int i = 0; i < personInfo.size(); i++) {
+				Person p = (Person) personInfo.get(i);
+				if (city.equalsIgnoreCase(p.getCity()) ) 
+					System.out.println(p.getFirstName());
+				
+		}
+			
+	}
+	public void searchUsingState(String state) {
+		for (int i = 0; i < personInfo.size(); i++) {
+			Person p = (Person) personInfo.get(i);
+			if (state.equalsIgnoreCase(p.getState()) ) 
+				System.out.println(p.getFirstName());
+			
 		}
 	}
 }
