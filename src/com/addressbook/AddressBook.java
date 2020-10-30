@@ -37,23 +37,33 @@ public class AddressBook {
 						performOperations(fileOperated);
 					break;
 				case 3:
+					int sizeCityDict=0,totalSizeCityDict=0;
 					System.out.println("Enter city name to list persons : ");
 					input = sc.next();
 
 					System.out.println("Person lives in city "+input+" are :");
 
 					for (File filename : files) {
-						searchFromCity(filename.getName(),input);
+						sizeCityDict=searchFromCity(filename.getName(),input);
+						totalSizeCityDict=totalSizeCityDict+sizeCityDict;
 					}
+					if (totalSizeCityDict == 0)
+						System.out.println("No one.");
+					System.out.println("Total count of persons in city "+input+" is : "+totalSizeCityDict);					
 					break;
 				case 4:
+					int sizeStateDict=0,totalSizeStateDict=0;
 					System.out.println("Enter state name to list persons : ");
 					input = sc.next();
 					System.out.println("Person lives in state "+input+" are :");
 
 					for (File filename : files) {
-						searchFromState(filename.getName(),input);
+						sizeStateDict=searchFromState(filename.getName(),input);
+						totalSizeStateDict=totalSizeStateDict+sizeStateDict;
 					}
+					if (totalSizeStateDict == 0)
+						System.out.println("No one.");
+					System.out.println("Total count of persons in city "+input+" is : "+totalSizeStateDict);
 					break;
 				case 5:
 					System.out.println("You exit the program.");
@@ -106,15 +116,15 @@ public class AddressBook {
 			}
 		} while (choice != 5);
 	}
-	public static void searchFromCity(String filename,String city) {
+	public static int searchFromCity(String filename,String city) {
 		AddressBookOperations addressbookoperation = new AddressBookOperations(filename,city);
 		addressbookoperation.searchCity(filename,city);
-
+		return addressbookoperation.cityPerson.size();
 	}
-	public static void searchFromState(String filename,String state) {
+	public static int searchFromState(String filename,String state) {
 		AddressBookOperations addressbookoperation = new AddressBookOperations(filename,state);
 		addressbookoperation.searchState(filename,state);
-
+		return addressbookoperation.statePerson.size();
 	}
 
 
