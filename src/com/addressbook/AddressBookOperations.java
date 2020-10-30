@@ -215,11 +215,7 @@ class AddressBookOperations {
 	}
 
 	public void searchUsingState(String state) {
-		/*
-		 * Person found = personInfo.stream().filter((p) ->
-		 * state.equalsIgnoreCase(p.getState())).findAny().orElse(null);
-		 * System.out.println(found.getFirstName());
-		 */
+
 		List<String> found = personInfo.stream().filter((p) -> state.equalsIgnoreCase(p.getState()))
 				.map(Person::getFirstName).collect(Collectors.toList());
 
