@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
 	static Scanner sc;
-	Dictionary<String, String> statePerson = new Hashtable<String, String>();
-	Dictionary<String, String> cityPerson = new Hashtable<String, String>();
 
 	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
