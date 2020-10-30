@@ -136,13 +136,16 @@ class AddressBookOperations {
 	}
 
 	public void addPerson(String name,String surname) {
-		int flag = 0;
+/*		int flag = 0;
 		for (int i = 0; i < personInfo.size(); i++) {
 			Person p = (Person) personInfo.get(i);
 			if (name.equalsIgnoreCase(p.getFirstName()) && surname.equalsIgnoreCase(p.getLastName()))
 				flag = 1;
 		}
 		if (flag == 1)
+	*/
+		Person found = personInfo.stream().filter((p) -> name.equalsIgnoreCase(p.getFirstName()) && surname.equalsIgnoreCase(p.getLastName())).findAny().orElse(null);
+		if (found != null)
 			System.out.println("Can't add person entry because it already exists.");
 		else {
 			sc = new Scanner(System.in);
