@@ -2,6 +2,7 @@ package com.addressbook;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
@@ -9,22 +10,23 @@ class AddressBookOperations {
 	Dictionary<String, String> statePerson = new Hashtable<String, String>();
 	Dictionary<String, String> cityPerson = new Hashtable<String, String>();
 
-	
 	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 	}
-	public AddressBookOperations(String addressBookName,String city) {
+
+	public AddressBookOperations(String addressBookName, String city) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 	}
 
-	public void searchCity(String addressBookName,String city) {
+	public void searchCity(String addressBookName, String city) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 		searchUsingCity(city);
 	}
-	public void searchState(String addressBookName,String state) {
+
+	public void searchState(String addressBookName, String state) {
 		personInfo = new ArrayList<Person>();
 		getFile(addressBookName);
 		searchUsingState(state);
@@ -52,7 +54,7 @@ class AddressBookOperations {
 	}
 
 	public static String displayAddressBook() {
-		sc= new Scanner(System.in);
+		sc = new Scanner(System.in);
 		File directoryPath = new File(".");
 		String addressBookEntered;
 		String addressBookExisted = null;
@@ -135,16 +137,11 @@ class AddressBookOperations {
 		}
 	}
 
-	public void addPerson(String name,String surname) {
-/*		int flag = 0;
-		for (int i = 0; i < personInfo.size(); i++) {
-			Person p = (Person) personInfo.get(i);
-			if (name.equalsIgnoreCase(p.getFirstName()) && surname.equalsIgnoreCase(p.getLastName()))
-				flag = 1;
-		}
-		if (flag == 1)
-	*/
-		Person found = personInfo.stream().filter((p) -> name.equalsIgnoreCase(p.getFirstName()) && surname.equalsIgnoreCase(p.getLastName())).findAny().orElse(null);
+	public void addPerson(String name, String surname) {
+
+		Person found = personInfo.stream()
+				.filter((p) -> name.equalsIgnoreCase(p.getFirstName()) && surname.equalsIgnoreCase(p.getLastName()))
+				.findAny().orElse(null);
 		if (found != null)
 			System.out.println("Can't add person entry because it already exists.");
 		else {
@@ -211,25 +208,23 @@ class AddressBookOperations {
 	}
 
 	public void searchUsingCity(String city) {
-		for (int i = 0; i < personInfo.size(); i++) {
-				Person p = (Person) personInfo.get(i);
-				if (city.equalsIgnoreCase(p.getCity()) ) 
-					cityPerson.put(p.getFirstName(), city);										
-		}
-		Enumeration<String> personsKeys= cityPerson.keys();
-		while(personsKeys.hasMoreElements()) {
-			System.out.println(personsKeys.nextElement());
-		}	
+
+		List<String> found = personInfo.stream().filter((p) -> city.equalsIgnoreCase(p.getCity()))
+				.map(Person::getFirstName).collect(Collectors.toList());
+
+		found.forEach(System.out::println);
+
 	}
+
 	public void searchUsingState(String state) {
-		for (int i = 0; i < personInfo.size(); i++) {
-			Person p = (Person) personInfo.get(i);
-			if (state.equalsIgnoreCase(p.getState()) ) 
-				statePerson.put(p.getFirstName(), state);						
-		}
-		Enumeration<String> personKeys= statePerson.keys();
-		while(personKeys.hasMoreElements()) {
-			System.out.println(personKeys.nextElement());
-		}
+		/*
+		 * Person found = personInfo.stream().filter((p) ->
+		 * state.equalsIgnoreCase(p.getState())).findAny().orElse(null);
+		 * System.out.println(found.getFirstName());
+		 */
+		List<String> found = personInfo.stream().filter((p) -> state.equalsIgnoreCase(p.getState()))
+				.map(Person::getFirstName).collect(Collectors.toList());
+
+		found.forEach(System.out::println);
 	}
 }
