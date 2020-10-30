@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 class AddressBookOperations {
 	ArrayList<Person> personInfo;
 	static Scanner sc;
+	LinkedHashMap<String, String> cityPerson = new LinkedHashMap<String, String>();
+	LinkedHashMap<String, String> statePerson = new LinkedHashMap<String, String>();
 
 	public AddressBookOperations(String addressBookName) {
 		personInfo = new ArrayList<Person>();
@@ -207,18 +209,17 @@ class AddressBookOperations {
 
 	public void searchUsingCity(String city) {
 
-		List<String> found = personInfo.stream().filter((p) -> city.equalsIgnoreCase(p.getCity()))
-				.map(Person::getFirstName).collect(Collectors.toList());
+		cityPerson = personInfo.stream().filter((p) -> city.equalsIgnoreCase(p.getCity())).collect(
+				Collectors.toMap(Person::getFirstName, Person::getCity, (x, y) -> x + ", " + y, LinkedHashMap::new));
 
-		found.forEach(System.out::println);
+		cityPerson.forEach((x, y) -> System.out.println(x));
 
 	}
 
 	public void searchUsingState(String state) {
+		statePerson = personInfo.stream().filter((p) -> state.equalsIgnoreCase(p.getState())).collect(
+				Collectors.toMap(Person::getFirstName, Person::getState, (x, y) -> x + ", " + y, LinkedHashMap::new));
 
-		List<String> found = personInfo.stream().filter((p) -> state.equalsIgnoreCase(p.getState()))
-				.map(Person::getFirstName).collect(Collectors.toList());
-
-		found.forEach(System.out::println);
+		statePerson.forEach((x, y) -> System.out.println(x));
 	}
 }
