@@ -209,9 +209,27 @@ class AddressBookOperations {
 		}
 	}
 
-	public void sortName() {
+	public void sortByName() {
 		personInfo = personInfo.stream()
 				.sorted(Comparator.comparing(Person::getFirstName))
+				.collect(Collectors.toList());
+		personInfo.forEach(System.out::println);
+	}
+	public void sortByCity() {
+		personInfo = personInfo.stream()
+				.sorted(Comparator.comparing(Person::getCity))
+				.collect(Collectors.toList());
+		personInfo.forEach(System.out::println);
+	}
+	public void sortByState() {
+		personInfo = personInfo.stream()
+				.sorted(Comparator.comparing(Person::getState))
+				.collect(Collectors.toList());
+		personInfo.forEach(System.out::println);
+	}
+	public void sortByZip() {
+		personInfo = personInfo.stream()
+				.sorted(Comparator.comparing(Person::getZip))
 				.collect(Collectors.toList());
 		personInfo.forEach(System.out::println);
 	}

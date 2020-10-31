@@ -83,7 +83,7 @@ public class AddressBook {
 
 		do {
 			System.out.print(
-					" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Sort by name \n 5.Print all contacts \n 6.Close the address book. \n Enter your choice : ");
+					" 1.Add a person \n 2.Update person info \n 3.Delete person \n 4.Sort by name \n 5.Sort by city \n 6.Sort by state \n 7.Sort by zip \n 8.Print all contacts \n 9.Close the address book. \n Enter your choice : ");
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -107,19 +107,31 @@ public class AddressBook {
 				break;
 			case 4:
 				System.out.println("Address book is sorted by name.");
-				addressbookoperations.sortName();
+				addressbookoperations.sortByName();
 				break;
 			case 5:
-				addressbookoperations.printAll();
+				System.out.println("Address book is sorted by city.");
+				addressbookoperations.sortByCity();
 				break;
 			case 6:
+				System.out.println("Address book is sorted by state.");
+				addressbookoperations.sortByState();
+				break;
+			case 7:
+				System.out.println("Address book is sorted by zip codes.");
+				addressbookoperations.sortByZip();
+				break;
+			case 8:
+				addressbookoperations.printAll();
+				break;
+			case 9:
 				System.out.println("You closed the '" + workOnAddressBook.replaceFirst("[.][^.]+$", "") + " ' address book.");
 				addressbookoperations.setFile(workOnAddressBook);
 				break;
 			default:
 				System.out.println("Wrong choice.");
 			}
-		} while (choice != 6);
+		} while (choice != 9);
 	}
 
 	public static int searchFromCity(String filename, String city) {
