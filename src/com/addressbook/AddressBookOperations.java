@@ -2,10 +2,12 @@ package com.addressbook;
 
 import java.io.*;
 import java.util.*;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 class AddressBookOperations {
-	ArrayList<Person> personInfo;
+	List<Person> personInfo;
+
 	static Scanner sc;
 	LinkedHashMap<String, String> cityPerson = new LinkedHashMap<String, String>();
 	LinkedHashMap<String, String> statePerson = new LinkedHashMap<String, String>();
@@ -205,6 +207,13 @@ class AddressBookOperations {
 			System.out.println(p.getCity() + " " + p.getState() + "-" + p.getZip());
 			System.out.println(p.getPhone() + "\n");
 		}
+	}
+
+	public void sortName() {
+		personInfo = personInfo.stream()
+				.sorted(Comparator.comparing(Person::getFirstName))
+				.collect(Collectors.toList());
+		personInfo.forEach(System.out::println);
 	}
 
 	public void searchUsingCity(String city) {
