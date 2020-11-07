@@ -1,8 +1,11 @@
 package com.addressbook;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 class AddressBookOperations {
@@ -89,14 +92,12 @@ class AddressBookOperations {
 
 	public void getFile(String addressBookName) {
 		String tokens[] = null;
+		Path path = Paths.get(addressBookName);
+		Charset charset = Charset.forName("US-ASCII");
 		String fname, lname, addr, city, state, zip, ph;
-
-		try {
-			FileReader filereader = new FileReader(addressBookName);
-			BufferedReader bufferedreader = new BufferedReader(filereader);
-
-			String line = bufferedreader.readLine();
-			while (line != null) {
+		try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+			String line = null;
+			while ((line = reader.readLine()) != null) {
 				tokens = line.split(",");
 				fname = tokens[0];
 				lname = tokens[1];
@@ -108,32 +109,25 @@ class AddressBookOperations {
 
 				Person p = new Person(fname, lname, addr, city, state, zip, ph);
 				personInfo.add(p);
-				line = bufferedreader.readLine();
 			}
-			bufferedreader.close();
-			filereader.close();
-		} catch (IOException e) {
-			System.out.println(e);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
 	public void setFile(String addressBookName) {
-		try {
+		Path path = Paths.get(addressBookName);
+		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
 			Person p;
 			String line;
-
-			FileWriter filewriter = new FileWriter(addressBookName);
-			PrintWriter printwriter = new PrintWriter(filewriter);
 
 			for (int i = 0; i < personInfo.size(); i++) {
 				p = (Person) personInfo.get(i);
 				line = p.getFirstName() + "," + p.getLastName() + "," + p.getAddress() + "," + p.getCity() + ","
 						+ p.getState() + "," + p.getZip() + "," + p.getPhone();
-				printwriter.println(line);
+				writer.write(line);
+				writer.newLine();
 			}
-			printwriter.flush();
-			printwriter.close();
-			filewriter.close();
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -210,27 +204,23 @@ class AddressBookOperations {
 	}
 
 	public void sortByName() {
-		personInfo = personInfo.stream()
-				.sorted(Comparator.comparing(Person::getFirstName))
+		personInfo = personInfo.stream().sorted(Comparator.comparing(Person::getFirstName))
 				.collect(Collectors.toList());
 		personInfo.forEach(System.out::println);
 	}
+
 	public void sortByCity() {
-		personInfo = personInfo.stream()
-				.sorted(Comparator.comparing(Person::getCity))
-				.collect(Collectors.toList());
+		personInfo = personInfo.stream().sorted(Comparator.comparing(Person::getCity)).collect(Collectors.toList());
 		personInfo.forEach(System.out::println);
 	}
+
 	public void sortByState() {
-		personInfo = personInfo.stream()
-				.sorted(Comparator.comparing(Person::getState))
-				.collect(Collectors.toList());
+		personInfo = personInfo.stream().sorted(Comparator.comparing(Person::getState)).collect(Collectors.toList());
 		personInfo.forEach(System.out::println);
 	}
+
 	public void sortByZip() {
-		personInfo = personInfo.stream()
-				.sorted(Comparator.comparing(Person::getZip))
-				.collect(Collectors.toList());
+		personInfo = personInfo.stream().sorted(Comparator.comparing(Person::getZip)).collect(Collectors.toList());
 		personInfo.forEach(System.out::println);
 	}
 

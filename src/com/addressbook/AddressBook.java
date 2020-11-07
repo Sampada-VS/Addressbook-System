@@ -125,7 +125,8 @@ public class AddressBook {
 				addressbookoperations.printAll();
 				break;
 			case 9:
-				System.out.println("You closed the '" + workOnAddressBook.replaceFirst("[.][^.]+$", "") + " ' address book.");
+				System.out.println(
+						"You closed the '" + workOnAddressBook.replaceFirst("[.][^.]+$", "") + " ' address book.");
 				addressbookoperations.setFile(workOnAddressBook);
 				break;
 			default:
